@@ -1,4 +1,5 @@
 package model;
+import java.lang.Math;
 
 public class Treasure{
     private String nameTreasure;
@@ -27,6 +28,10 @@ public class Treasure{
         return positionYTreasure;
     }
 
+    public int getScoreTreasure() {
+        return scoreTreasure;
+    }
+
     public void setPositionXTreasure(int positionXTreasure) {
         this.positionXTreasure = positionXTreasure;
     }
@@ -34,4 +39,22 @@ public class Treasure{
     public void setPositionYTreasure(int positionYTreasure) {
         this.positionYTreasure = positionYTreasure;
     }
+
+    public int generateRandomPosisitonX(){
+        int positionX=(int)(Math.random()*1280+1);
+        return positionX;
+    }
+
+    public int generateRandomPosisitonY(){
+        int positionY=(int)(Math.random()*720+1);
+        return positionY;
+    }
+
+    public String toString(){
+		return 
+			"Informacion del Tesoro: \n" + 
+			"Nombre: " + this.nameTreasure + "\n" +
+			"Posicion X: " + this.positionXTreasure + "\n" +
+			"Posicion Y: " + this.positionYTreasure + "\n"; 
+	}
 }

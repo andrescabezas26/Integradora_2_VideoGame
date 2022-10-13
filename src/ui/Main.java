@@ -7,9 +7,11 @@ import model.VideoGame;
 public class Main{
 
 	private Scanner reader; 
+	private VideoGame videoGame;
 
 	public Main(){
-		reader = new Scanner(System.in); 
+		reader = new Scanner(System.in);
+		videoGame = new VideoGame(); 
 	}
 
 	public Scanner getReader(){
@@ -24,13 +26,12 @@ public class Main{
 		System.out.println(msj); 
 		int option = 0; 
 
-				do{
-					option = main.getOptionShowMenu(); 
-					main.executeOption(option);
+		do{
+			option = main.getOptionShowMenu(); 
+			main.executeOption(option);
+		}while(option != 0);
 
-				}while(option != 0);
-
-				main.getReader().close();
+		main.getReader().close();
 	}
 	
 	public int getOptionShowMenu(){
@@ -57,8 +58,15 @@ public class Main{
 
 	public void executeOption(int option){
 		switch(option){
+			videoGame.initVideoGame();
+			String msj="";
 			case 1:
-
+				System.out.println("Escribe el nickname del jugador");
+				String nickName= reader.next();
+				System.out.println("Escribe el nombre");
+				String name=reader.next();
+				msj=videoGame.addPlayer(nickName, name);
+				System.out.println(msj);
 				break; 
 
 			case 2:

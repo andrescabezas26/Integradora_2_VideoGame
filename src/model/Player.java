@@ -26,6 +26,10 @@ public class Player{
     public String getName() {
         return name;
     }
+
+    public int getLifes() {
+        return lifes;
+    }
     
     public void setLifes(int lifes) {
         this.lifes = lifes;
@@ -42,4 +46,12 @@ public class Player{
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+    public String toString(){
+        return 
+            "Información del enemigo: \n"+
+            "Apodo : " + this.nickName + "\n" +
+            "Puntaje : " + this.scorePlayer + "\n";
+    }
+
 }

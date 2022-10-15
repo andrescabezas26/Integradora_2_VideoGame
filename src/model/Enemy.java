@@ -17,8 +17,9 @@ public class Enemy {
         positionXEnemy=generateRandomPosisitonX();
         positionYEnemy=generateRandomPosisitonY();
         this.typeEnemy= TypeEnemy.values()[optionEnemy];
+        
     }
-
+    
     public TypeEnemy setTypeEnemy(int typeEnemy ){
         if(typeEnemy==1){
             this.typeEnemy=TypeEnemy.OGRO;
@@ -49,7 +50,7 @@ public class Enemy {
         return nameEnemy;
     }
 
-    public String getTypeEnemy() {
+    public TypeEnemy getTypeEnemy() {
         return typeEnemy;
     }
 
@@ -81,6 +82,11 @@ public class Enemy {
     public int generateRandomPosisitonY(){
         int positionY=(int)(Math.random()*720+1);
         return positionY;
+    }
+
+    public String toString(){
+        return 
+            "Nombre: " + this.nameEnemy + " Tipo: " + this.typeEnemy;
     }
 
 }

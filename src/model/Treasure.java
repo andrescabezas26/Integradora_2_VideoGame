@@ -52,9 +52,6 @@ public class Treasure{
 
     public String toString(){
 		return 
-			"Informacion del Tesoro: \n" + 
-			"Nombre: " + this.nameTreasure + "\n" +
-			"Posicion X: " + this.positionXTreasure + "\n" +
-			"Posicion Y: " + this.positionYTreasure + "\n"; 
+			"Nombre: " + this.nameTreasure ; 
 	}
 }

@@ -11,7 +11,7 @@ public class Main{
 
 	public Main(){
 		reader = new Scanner(System.in);
-		videoGame = new VideoGame(); 
+		videoGame= new VideoGame();
 	}
 
 	public Scanner getReader(){
@@ -51,58 +51,122 @@ public class Main{
                 "11. Mostar la cantidad de consonantes en los nombres de los enemigos del juego\n" +
                 "12. Mostrar el top 5 de jugadores del juego\n" +
 				"0. Salir del Programa. ");
-		option = reader.nextInt(); 
+		option = validateIntegerOption();
 
 		return option; 
 	}
 
 	public void executeOption(int option){
 		switch(option){
-			videoGame.initVideoGame();
-			String msj="";
 			case 1:
 				System.out.println("Escribe el nickname del jugador");
 				String nickName= reader.next();
 				System.out.println("Escribe el nombre");
 				String name=reader.next();
-				msj=videoGame.addPlayer(nickName, name);
+				String msj=videoGame.addPlayer(nickName, name);
 				System.out.println(msj);
 				break; 
 
 			case 2:
-				
+				System.out.println("Escribe el nombre del tesoro");
+				String nameTreasure= reader.next();
+				System.out.println("Escribe su url");
+				String url= reader.next();
+				System.out.println("Escribe su puntaje");
+				int scoreTreasure= validateIntegerOption();
+				System.out.println("Escribe el nivel donde vas a agregar el tesoro");
+				int level= validateIntegerOption();
+				while(level>10 || level<1){
+					System.out.println("Escribe un nivel entre 1-10");
+					level= validateIntegerOption();
+				}
+				System.out.println("Escribe la cantidad de tesoros a agregar");
+				int quantityOfTreasure=validateIntegerOption();
+				while(quantityOfTreasure<1){
+					System.out.println("Escribe una cantidad mayor o igual a 1");
+					quantityOfTreasure=validateIntegerOption();
+				}
+				msj=videoGame.addTreasure(nameTreasure, url, scoreTreasure, level, quantityOfTreasure);
+				System.out.println(msj);
 				break; 
 
 			case 3:
-
+				System.out.println("Escribe el nombre del enemigo");
+				String nameEnemy= reader.next();
+				System.out.println("Escribe el daño");
+				int damageEnemy= validateIntegerOption();
+				System.out.println("Escribe el puntaje");
+				int scoreEnemy=validateIntegerOption();
+				System.out.println("Escribe el tipo de enemigo");
+				int optionEnemy=validateIntegerOption();
+				while(optionEnemy>4 || optionEnemy<1){
+					System.out.println("Escribe un tipo entre 1-4");
+					optionEnemy= validateIntegerOption();
+				}
+				System.out.println("Escribe el nivel");
+				level= validateIntegerOption();
+				while(level>10 || level<1){
+					System.out.println("Escribe un nivel entre 1-10");
+					level= validateIntegerOption();
+				}
+				optionEnemy--;
+				msj=videoGame.addEnemy(nameEnemy, damageEnemy, scoreEnemy, optionEnemy , level);
+				System.out.println(msj);
 				break;
             
             case 4:
-
+				System.out.println("Escribe el nickName del jugador");
+				nickName=reader.next();
+				System.out.println("Escribe su nuevo puntaje");
+				int scorePlayer=validateIntegerOption();
+				msj=videoGame.modifyPlayerScore(nickName, scorePlayer);
+				System.out.println(msj);
 				break; 
             
             case 5:
-
+				System.out.println("Escribe el nickName del jugador");
+				nickName=reader.next();
+				msj=videoGame.increasePlayerLevel(nickName);
+				System.out.println(msj);
 				break;
                 
             case 6:
-
+				System.out.println("Escribe el nivel");
+				level= validateIntegerOption();
+				while(level>10 && level<1){
+					System.out.println("Escribe un nivel entre 1-10");
+					level= validateIntegerOption();
+				}
+				msj=videoGame.getLevels()[level-1].listEnemiesAndTreasures();
+				System.out.println(msj);
 				break; 
 
             case 7:
-
+				System.out.println("Escribe el nombre del tesoro");
+				nameTreasure=reader.next();
+				msj=videoGame.countATreasure(nameTreasure);
+				System.out.println(msj);
                 break;
 
             case 8:
-
+				System.out.println("Escribe el tipo de enemigo");
+				optionEnemy=validateIntegerOption();
+				while(optionEnemy>4 || optionEnemy<1){
+					System.out.println("Escribe un tipo entre 1-4");
+					optionEnemy= validateIntegerOption();
+				}
+				msj=videoGame.countATypeEnemy(optionEnemy-1);
+				System.out.println(msj);
 				break; 
 
             case 9:
-
+				msj=videoGame.showMostRepeatedTreasure();
+				System.out.println(msj);
 				break; 
 
             case 10:
-
+				msj=videoGame.showHigerScoreEnemy();
+				System.out.println(msj);
 				break; 
 
             case 11:
@@ -121,6 +185,21 @@ public class Main{
 				System.out.println("Opcion Invalida");
 				break; 
 		}
+	}
+
+	public int validateIntegerOption(){
+		int option = 0; 
+
+		if(reader.hasNextInt()){
+			option = reader.nextInt(); 
+		}
+		else{
+			// clear reader. 
+			reader.nextLine(); 
+			option = -1; 
+		}
+
+		return option; 
 	}
 
 

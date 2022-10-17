@@ -22,8 +22,7 @@ public class VideoGame{
     public Level[] getLevels() {
         return levels;
     }
-    /**intiGame=Initializate 10 levels, 20 players, 25 
-     * 
+    /**intiGame=Initializate 10 levels, 20 players, 25 enemies and 50 treasures
      */
     public void intiGame(){
         for(int i=0; i<20; i++){
@@ -42,7 +41,11 @@ public class VideoGame{
             addTreasure("Tesoro" + (i+1), "url", scoreTreasure, 1, 1);
         }
     }
-
+    /**addPlayer= Add a player to level 1
+     * @param nickName: String = The nickname of the player
+     * @param name: String = The name of the player
+     * @return msj: String = A message that confirms if the player was added
+     */
     public String addPlayer(String nickName, String name){
         msj="Capacidad Maxima Alcanzada";
         int nickNameRepeated= searchPlayerByNickName(nickName);
@@ -64,7 +67,14 @@ public class VideoGame{
         }
 		return msj;
     }
-
+    /**addTreasure= Add a treasure to a level 
+     * @param nameTreasure: String = Name of the treasure
+     * @param url: String = The url of the treasure
+     * @param scoreTreasure: int= The score that the treasure give
+     * @param level: int= The level to add the treasure
+     * @param quantityOfTreasure: int = The quantity of treasures to add to the level
+     * @return msj: String = A mmessagge that confirms if the treasures were added
+     */
     public String addTreasure(String nameTreasure, String url, int scoreTreasure, int level, int quantityOfTreasure){
         msj="Los tesoros exceden la capacidad maxima del nivel";
         level--;
@@ -83,7 +93,14 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**addEnemy= Add a enemy to a level with his info
+     * @param nameEnemy: String = The name of the enemy
+     * @param damageEnemy: int=The damage of the enemy
+     * @param scoreEnemy: int = The score that the enemy gives
+     * @param optionEnemy int= The type of enemy selected by the user
+     * @param level: int = The level to add the enemy
+     * @return msj: String = A message that confirms if the enmy was added to the level
+     */
     public String addEnemy(String nameEnemy, int damageEnemy, int scoreEnemy, int optionEnemy ,int level){
         msj="Capacidad Maxima de enemigos alcanzada";
         level--;
@@ -103,7 +120,11 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**modifyPlayerScore= Modify the score of a player
+     * @param nickName: String = The nickName of the player to mofidy his score
+     * @param scorePlayer: int = The new score of the player 
+     * @return msj: String= A message taht confirms if the score of the player was modified
+     */
     public String modifyPlayerScore(String nickName, int scorePlayer){
         msj="No se encontró al jugador";
         boolean isFound= false;
@@ -122,7 +143,11 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**increasePlayerLevel= Increase a player to a level that the user input
+     * @param nickName: String= The nickName of the player to increase of level
+     * @param level: int = The level to change the player
+     * @return msj: String = A message that confirms if the player increased of level or how many points left to level up
+     */
     public String increasePlayerLevel(String nickName, int level){
         msj="No se encontro al jugador";
         level=level-2;
@@ -148,7 +173,10 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**countAtreasure= This method count how many of an specific treasure are in the game
+     * @param nameTreasure: String = The name of the treasure to count
+     * @return msj: String = A message that shows how many treasures are or if the treasure doesn´t exist
+     */
     public String countATreasure(String nameTreasure){
         msj="EL tesoro no fue encontrado";
         int count=0;
@@ -166,7 +194,10 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**countATypeEnemy= This method count how many enemies have an specific type of enemy in the game
+     * @param optionEnemy: int= The type of enemy selected by the user
+     * @return msj: String= A message that shows how many enemies have an specific type of enemy
+     */
     public String countATypeEnemy(int optionEnemy){
         msj="Ningun tipo de enemigo no fue encontrado";
         int count=0;
@@ -184,7 +215,10 @@ public class VideoGame{
         msj= typeEnemy + " fue encontrado " + count + " veces";
         return msj;
     }
-
+    /**countTreasures= This method count an specific treasures too, but his return is only the quantity
+     * @param nameTreasure: String = The name of the treasure to count 
+     * @return count = The quantity of treasures counted in the game
+     */
     public int countTreasures(String nameTreasure){
         int count=0;
         for(int i=0;i<SIZE_OF_LEVELS;i++){
@@ -198,7 +232,9 @@ public class VideoGame{
         }
         return count;
     }
-
+    /** showMostRepeatedTreasure= This method searchs and shows the most repeated treasure in the game
+     * @return msj: String= A message that shows the most repeated treasure of the game
+     */
     public String showMostRepeatedTreasure(){
         for(int i=0;i<SIZE_OF_LEVELS;i++){
             for(int j=0;j<SIZE_OF_TREASURES_IN_LEVEL;j++){    
@@ -214,7 +250,9 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**showHigerScoreEnemy=This method shows the Enemy with the highest score and shows where it is
+     * @return msj: String = A message that shows the Enemy with the highest score and shows where it is
+     */
     public String showHigerScoreEnemy(){
         msj="";
         for(int i=0;i<SIZE_OF_LEVELS;i++){
@@ -231,7 +269,9 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**showEnemiesConsonants= This method count the consonants in the name of the enmies in the game
+     * @return msj: String = A message that shows how many consonants where counted in the name of the enemies
+     */
     public String showEnemiesConsonants(){
         String nameEnemy="";
         int count=0;
@@ -255,7 +295,9 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**showTop5Players= This method shows the 5 players with the highest score in the game
+     * @return msj: String = A message that shows the 5 players with the highest score in the game
+     */
     public String showTop5Players(){
         msj="";
         Player[] top5Player;
@@ -285,7 +327,10 @@ public class VideoGame{
         }
         return msj;
     }
-
+    /**searchPlayerByNickName= This method search a Player by his NickName
+     * @param playerNickName: String = The name of the player to search;
+     * @return pos: int = The position of the level where the player was found or -1 if wasn´t found
+     */
     public int searchPlayerByNickName(String playerNickName){
 		int pos = -1; 
 		boolean isFound = false; 
@@ -297,7 +342,10 @@ public class VideoGame{
 		}
 		return pos; 
 	}
-
+    /**searchTreasureByName= This method search a Treasure by his Name
+     * @param nameTreasure: String = The name of the treasure to search
+     * @return pos: int = The position of the treasure in the level where the treasure was found or -1 if wasn´t found
+     */
     public int searchTreasureByName(String nameTreasure){
 		int pos = -1; 
 		boolean isFound = false; 
@@ -313,7 +361,9 @@ public class VideoGame{
 		}
 		return pos; 
 	}
-
+    /**showTypeEnemyList= Shows a list of the typeEnemy enmueration
+     * @return msj: String= The list of the typeEnemy enumeration
+     */
     public String showTypeEnemyList(){
         TypeEnemy typeEnemies[]= TypeEnemy.values();
         msj= "Tipo de enemigos: ";

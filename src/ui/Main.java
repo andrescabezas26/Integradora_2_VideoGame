@@ -19,16 +19,12 @@ public class Main{
 	}
 
 	public static void main(String[] args){
-		// creación del objeto. 
 		Main main = new Main(); 
-		// llamdo a uno de los metodos de la clase. 
 		int option = 0; 
-
 		do{
 			option = main.getOptionShowMenu(); 
 			main.executeOption(option);
 		}while(option != 0);
-
 		main.getReader().close();
 	}
 	
@@ -50,7 +46,6 @@ public class Main{
                 "12. Mostrar el top 5 de jugadores del juego\n" +
 				"0. Salir del Programa. ");
 		option = validateIntegerOption();
-
 		return option; 
 	}
 
@@ -200,7 +195,6 @@ public class Main{
 	 */
 	public int validateIntegerOption(){
 		int option = 0; 
-
 		if(reader.hasNextInt()){
 			option = reader.nextInt(); 
 		}
@@ -209,7 +203,6 @@ public class Main{
 			reader.nextLine(); 
 			option = -1; 
 		}
-
 		while(option==-1){
 			if(reader.hasNextInt()){
 				option = reader.nextInt(); 
@@ -220,8 +213,6 @@ public class Main{
 				option = -1; 
 			}
 		}
-
 		return option; 
 	}
-
 }

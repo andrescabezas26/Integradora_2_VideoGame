@@ -70,7 +70,9 @@ public class Level {
     public Treasure[] getTreasures() {
         return treasures;
     }
-
+    /**addPersonWithObject= Add a player object to the level
+     * @param player: Player = The player that will be added to the game
+     */
     public void addPersonWithObject(Player player){
 		boolean isEmpty = false; 
 		for(int i = 0; i <SIZE_OF_PLAYERS && !isEmpty; i++){
@@ -80,7 +82,10 @@ public class Level {
 			}
 		}
 	}
-
+    /**addTreasureWithObject= Add a treasure object to the level depending on the quantity that the user input
+     * @param treasure: Treasure = The treasure that will be added to the level
+     * @param quantityOfTreasure: int = The quantity of treasures that will be added to the level
+     */
     public void addTreasureWithObject(Treasure treasure, int quantityOfTreasure){
         int treasuresAdded=0;
         for(int i=0;i<SIZE_OF_TREASURES && treasuresAdded<quantityOfTreasure;i++){
@@ -90,7 +95,9 @@ public class Level {
             }
         }
     }
-
+    /**addEnemyWithObject=Add a enemy object to the level
+     * @param enemy: Enemy = The enmy that will be added to the level
+     */
     public void addEnemyWithObject(Enemy enemy){
         boolean isAdded=false;
         for(int i=0;i<SIZE_OF_ENEMIES && !isAdded;i++){
@@ -100,15 +107,19 @@ public class Level {
             }
         }
     }
-
+    /**deletePerson= Delete a player of the level by his nickName
+     * @param nickName: String = The nickName of the player that will be deleted
+     */
     public void deletePerson(String nickName){
 		int pos = searchPlayerByNickName(nickName); 
 		if(pos != -1){
 			players[pos] = null; 
 		}
 	} 
-    
-
+    /**searchEnemyByName= Searchs a enemy in the level by his name
+     * @param enemyName: String = The name of the enemy to search
+     * @return pos: int = The position of the Enemy in the level or -1 if wasn´t found
+     */
     public int searchEnemyByName(String enemyName){
 		int pos = -1; 
 		boolean isFound = false; 
@@ -123,7 +134,10 @@ public class Level {
 
 		return pos; 
 	}
-
+    /**searchPlayerByNickName= Searchs a player in the level by his nickName
+     * @param playerNickName: String = The nickName of the player to search
+     * @return pos: int = The position of the Player in the level or -1 if wasn´t found
+     */
     public int searchPlayerByNickName(String playerNickName){
 		int pos = -1; 
 		boolean isFound = false; 
@@ -137,7 +151,10 @@ public class Level {
 		}
 		return pos; 
 	}
-
+    /**searchTreasureByName= Searchs a treasure by his name in the level
+     * @param nameTreasure: String = The name of the treasure to search
+     * @return pos: int = The position of the treasure in the level or -1 if wasn´t found
+     */
     public int searchTreasureByName(String nameTreasure){
 		int pos = -1; 
 		boolean isFound = false; 
@@ -151,23 +168,9 @@ public class Level {
 		}
 		return pos; 
 	}
-
-    public boolean searchRepeatPosition(int positionX, int positionY){
-        boolean isRepeated=false;
-        for(int i=0;i<100 && !isRepeated;i++){
-           int positionXEnemy = getEnemies()[i].getPositionXEnemy();
-           int positionYEnemy = getEnemies()[i].getPositionYEnemy();
-           int positionXTreasure = getTreasures()[i].getPositionXTreasure();
-           int positionYTreasure = getTreasures()[i].getPositionYTreasure();
-           if(positionX==positionXEnemy && positionY==positionYEnemy){
-            isRepeated=true;
-           }else if(positionX==positionXTreasure && positionY==positionYTreasure){
-            isRepeated=true;
-           }
-        }
-        return isRepeated;
-    }
-
+    /**hasEmptyPosPlayer=This method search an empty position in the array of players of the level
+     * @return pos: int = The position empty of players in the level or -1 if was full
+     */
     public int hasEmptyPosPlayer(){
         int pos=-1;
         boolean isEmpty=false;
@@ -179,7 +182,9 @@ public class Level {
         }
         return pos;
     }
-
+    /**hasEmptyPosTreasure=This method search an empty position in the array of treasures of the level
+     * @return pos: int=The position empty of treasures in the level or -1 if was full
+     */
     public int hasEmptyPosTreasure(){
         int freeSpaces=0;
         for(int i=0;i<SIZE_OF_TREASURES;i++){
@@ -189,7 +194,9 @@ public class Level {
         }
         return freeSpaces;
     }
-
+    /**hasEmptyPosEnemy=This method search an empty position in the array of enemies of the level
+     * @return pos: int=The position empty of enemies in the level or -1 if was full
+     */
     public int hasEmptyPosEnemy(){
         int pos=-1;
         boolean isEmpty=false;
@@ -201,7 +208,10 @@ public class Level {
         }
         return pos;
     }
-
+    /**countTreasures= This method count an specific treasure in the level and his return is only the quantity
+     * @param nameTreasure: String = The name of the treasure to count 
+     * @return count = The quantity of treasures counted in the game
+     */
     public int countTreasures(String nameTreasure){
         int count=0;
         for(int i=0;i<SIZE_OF_TREASURES;i++){
@@ -209,32 +219,47 @@ public class Level {
                 if(treasures[i].getNameTreasure().equals(nameTreasure)){
                     count++;
                 }
-
             }
         }
         return count;
     }
-
+    /**listEnemiesAndTreasures=This method shows a list of the enemies and treasures of the game separed by ","
+     * @return msj: String = The lis of enemies and treasures of the level
+     */
     public String listEnemiesAndTreasures(){
         String msj="";
         for(int i=0;i<SIZE_OF_TREASURES;i++){
             if(treasures[i]!=null){
-                msj += treasures[i].toString() + " , ";
+                if(i<SIZE_OF_TREASURES-1){
+                    if(treasures[i+1]==null){
+                        msj += treasures[i].toString();
+                    }else{
+                        msj += treasures[i].toString() + " , " ;
+                    }
+                }else{
+                    msj += treasures[i].toString() + " , ";
+                }
             }
         }
 
         for(int i=0;i<SIZE_OF_ENEMIES;i++){
             if(enemies[i]!=null){
-                if(i< (SIZE_OF_ENEMIES-1)){
+                if(i==SIZE_OF_ENEMIES-1){
                     msj += enemies[i].toString() + " , ";
                 }else{
-                    msj += enemies[i].toString();
+                    if(enemies[i+1]==null){
+                        msj += enemies[i].toString();
+                    }else if(i<SIZE_OF_ENEMIES){
+                        msj += enemies[i].toString() + " , ";
+                    }
                 }
             }
         }
         return msj;
     }
-
+    /**calculateDifficult= This method calculates the difficult of the level
+     * @return difficult: Difficult = The difficult calculated by the score of enemies and treasures of the game
+     */
     public Difficult calculateDifficult(){
         int scoreT=0;
         int scoreE=0;
@@ -264,15 +289,5 @@ public class Level {
         }
 
         return difficult;
-    }
-
-    public String listPlayers(){
-        String msj=""+scoreRequired;
-        for(int i=0;i<SIZE_OF_PLAYERS;i++){
-            if(players[i]!=null){
-                msj += players[i].toString() + " , " ;
-            }
-        }
-        return msj;
     }
 }

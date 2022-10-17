@@ -19,20 +19,6 @@ public class Enemy {
         this.typeEnemy= TypeEnemy.values()[optionEnemy];
         
     }
-    
-    public TypeEnemy setTypeEnemy(int typeEnemy ){
-        if(typeEnemy==1){
-            this.typeEnemy=TypeEnemy.OGRO;
-        }else if(typeEnemy==2){
-            this.typeEnemy=TypeEnemy.ABSTRACTO;
-        }else if(typeEnemy==3){
-            this.typeEnemy=TypeEnemy.MAGICO;
-        }else if(typeEnemy==4){
-            this.typeEnemy=TypeEnemy.JEFE;
-        }
-
-        return this.typeEnemy;
-    }
 
     public void setDamageEnemy(int damageEnemy) {
         this.damageEnemy = damageEnemy;
@@ -73,17 +59,21 @@ public class Enemy {
     public int getScoreEnemy() {
         return scoreEnemy;
     }
-
+    /**generateRandomPosition= This method generates a random position from 0 to 1280
+     * @return positionx: int = The posisition x on the level 
+     */
     public int generateRandomPosisitonX(){
-        int positionX=(int)(Math.random()*1280+1);
+        int positionX=(int)(Math.random()*1280);
         return positionX;
     }
-
+    /**generateRandomPosition= This method generates a random position from 0 to 720
+     * @return positiony: int = The posisition y on the level 
+     */
     public int generateRandomPosisitonY(){
-        int positionY=(int)(Math.random()*720+1);
+        int positionY=(int)(Math.random()*720);
         return positionY;
     }
-
+    
     public String toString(){
         return 
             "Nombre: " + this.nameEnemy + " Tipo: " + this.typeEnemy;

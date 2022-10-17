@@ -39,16 +39,18 @@ public class Treasure{
     public void setPositionYTreasure(int positionYTreasure) {
         this.positionYTreasure = positionYTreasure;
     }
-    /**generateRandomPosition=
-     * @return positionx: int = The posisition  
+    /**generateRandomPosition= This method generates a random position from 0 to 1280
+     * @return positionx: int = The posisition x on the level 
      */
     public int generateRandomPosisitonX(){
-        int positionX=(int)(Math.random()*1280+1);
+        int positionX=(int)(Math.random()*1280);
         return positionX;
     }
-
+    /**generateRandomPosition= This method generates a random position from 0 to 720
+     * @return positiony: int = The posisition y on the level 
+     */
     public int generateRandomPosisitonY(){
-        int positionY=(int)(Math.random()*720+1);
+        int positionY=(int)(Math.random()*720);
         return positionY;
     }
 

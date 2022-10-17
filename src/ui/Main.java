@@ -22,8 +22,6 @@ public class Main{
 		// creación del objeto. 
 		Main main = new Main(); 
 		// llamdo a uno de los metodos de la clase. 
-		String msj = main.toString(); 
-		System.out.println(msj); 
 		int option = 0; 
 
 		do{
@@ -97,6 +95,7 @@ public class Main{
 				int damageEnemy= validateIntegerOption();
 				System.out.println("Escribe el puntaje");
 				int scoreEnemy=validateIntegerOption();
+				System.out.println(videoGame.showTypeEnemyList());
 				System.out.println("Escribe el tipo de enemigo");
 				int optionEnemy=validateIntegerOption();
 				while(optionEnemy>4 || optionEnemy<1){
@@ -126,7 +125,13 @@ public class Main{
             case 5:
 				System.out.println("Escribe el nickName del jugador");
 				nickName=reader.next();
-				msj=videoGame.increasePlayerLevel(nickName);
+				System.out.println("Escribe el nivel");
+				level= validateIntegerOption();
+				while(level>10 || level<2){
+					System.out.println("Escribe un nivel entre 2-10");
+					level= validateIntegerOption();
+				}
+				msj=videoGame.increasePlayerLevel(nickName,level);
 				System.out.println(msj);
 				break;
                 
@@ -149,6 +154,7 @@ public class Main{
                 break;
 
             case 8:
+				System.out.println(videoGame.showTypeEnemyList());
 				System.out.println("Escribe el tipo de enemigo");
 				optionEnemy=validateIntegerOption();
 				while(optionEnemy>4 || optionEnemy<1){
@@ -170,11 +176,13 @@ public class Main{
 				break; 
 
             case 11:
-
+				msj=videoGame.showEnemiesConsonants();
+				System.out.println(msj);
 				break; 
 
             case 12:
-
+				msj=videoGame.showTop5Players();
+				System.out.println(msj);
 				break; 
 
 			case 0: 
@@ -187,6 +195,9 @@ public class Main{
 		}
 	}
 
+	/**validateIntegerOption= Validates if the user input is a integer number
+	 * @return option: int = The integer number that the user input
+	 */
 	public int validateIntegerOption(){
 		int option = 0; 
 
@@ -199,9 +210,18 @@ public class Main{
 			option = -1; 
 		}
 
+		while(option==-1){
+			if(reader.hasNextInt()){
+				option = reader.nextInt(); 
+			}
+			else{
+				// clear reader. 
+				reader.nextLine(); 
+				option = -1; 
+			}
+		}
+
 		return option; 
 	}
-
-
 
 }

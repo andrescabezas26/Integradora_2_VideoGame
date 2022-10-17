@@ -3,23 +3,17 @@ import java.lang.Math;
 
 public class VideoGame{
     public static final int SIZE_OF_LEVELS= 10;
-    public static final int SIZE_OF_PLAYERS=300;
-    public static final int SIZE_OF_TREASURES=600;
-    public static final int SIZE_OF_ENEMIES=350;
+    public static final int SIZE_OF_PLAYERS_IN_LEVEL=30;
+    public static final int SIZE_OF_TREASURES_IN_LEVEL=60;
+    public static final int SIZE_OF_ENEMIES_IN_LEVEL=35;
 
     private Level[] levels;
-    private Player[] players;
-    private Treasure[] treasures;
-    private Enemy[] enemies;
     private String msj;
     
     public VideoGame(){
         levels= new Level[SIZE_OF_LEVELS];
-        treasures= new Treasure[SIZE_OF_TREASURES];
-        enemies= new Enemy[SIZE_OF_ENEMIES];
-        players=new Player[SIZE_OF_PLAYERS];
         for(int i=1;i<SIZE_OF_LEVELS+1;i++){
-            int score=i*100;
+            int score=(i*100);
             levels[i-1]= new Level(i, score);
         }
         intiGame();
@@ -28,7 +22,9 @@ public class VideoGame{
     public Level[] getLevels() {
         return levels;
     }
-
+    /**intiGame=Initializate 10 levels, 20 players, 25 
+     * 
+     */
     public void intiGame(){
         for(int i=0; i<20; i++){
             addPlayer("Jugador"+ (i+1),"Pedro "+(i+1));
@@ -54,7 +50,7 @@ public class VideoGame{
         Player newPlayer= new Player(nickName, name);
         int levelIsEmpty=levels[0].hasEmptyPosPlayer();
         if(nickNameRepeated==-1 && levelIsEmpty!=-1){
-            for(int i=0;i<SIZE_OF_PLAYERS && !isEmpty;i++){
+            for(int i=0;i<SIZE_OF_PLAYERS_IN_LEVEL && !isEmpty;i++){
                 if(levels[0].getPlayers()[i]==null){
                     isEmpty= true;
                     levels[0].addPersonWithObject(newPlayer);
@@ -76,11 +72,11 @@ public class VideoGame{
         if(freeSpaces>=quantityOfTreasure){
             Treasure newTreasure= new Treasure(nameTreasure, url, scoreTreasure);
             int treasuresAdded=0;
-            for(int i=0;i<SIZE_OF_TREASURES && treasuresAdded<quantityOfTreasure;i++){
-                if(treasures[i]==null){
-                    treasuresAdded++;
-                    treasures[i]=newTreasure;
+            for(int i=0;i<SIZE_OF_TREASURES_IN_LEVEL && treasuresAdded<quantityOfTreasure;i++){
+                if(levels[level].getTreasures()[i]==null){
+                    levels[level].calculateDifficult();
                     levels[level].addTreasureWithObject(newTreasure, quantityOfTreasure);
+                    treasuresAdded=quantityOfTreasure;
                     msj="Tesoro añadido correctamente al nivel: "+ (level+1);
                 }
             }
@@ -94,10 +90,11 @@ public class VideoGame{
         boolean isAdded=false;
         if(levels[level].hasEmptyPosEnemy()!=-1 && levels[level].searchEnemyByName(nameEnemy)==-1){
             Enemy newEnemy= new Enemy(nameEnemy, damageEnemy, scoreEnemy, optionEnemy);
-            for(int i=0;i<SIZE_OF_ENEMIES && !isAdded;i++){
+            for(int i=0;i<SIZE_OF_ENEMIES_IN_LEVEL && !isAdded;i++){
                 if(levels[level].getEnemies()[i]==null){
                     isAdded=true;
                     levels[level].addEnemyWithObject(newEnemy);
+                    levels[level].calculateDifficult();
                     msj="Enemigo añadido correctamente en el nivel: "+ (level+1);
                 }
             }
@@ -114,50 +111,40 @@ public class VideoGame{
             int posLevel;
             int posPlayer;
             for(int i=0;i<SIZE_OF_LEVELS && !isFound;i++){
-                for(int j=0;j<30 && !isFound;j++){
-                    if(levels[i].searchPlayerByNickName(nickName)!=-1){
-                        isFound=true;
-                        posLevel=i;
-                        posPlayer=j;
-                        levels[posLevel].getPlayers()[posPlayer].setScorePlayer(scorePlayer);
-                        increasePlayerLevel(nickName);
-                        msj="Puntaje del juagador modificado correctamente a " + scorePlayer;
-                    };
-
-                }
+                posPlayer=levels[i].searchPlayerByNickName(nickName);
+                if(posPlayer!=-1){
+                    isFound=true;
+                    posLevel=i;
+                    levels[posLevel].getPlayers()[posPlayer].setScorePlayer(scorePlayer);
+                    msj="Puntaje del juagador modificado correctamente a " + scorePlayer;
+                };
             }
         }
         return msj;
     }
 
-    public String increasePlayerLevel(String nickName){
-        msj="No se encontró al jugador";
-        boolean isFound= false;
-        int pos=searchPlayerByNickName(nickName);
-        if(pos!=-1){
-            int posLevel;
-            int posPlayer;
-            for(int i=0;i<SIZE_OF_LEVELS && !isFound;i++){
-                for(int j=0;j<30 && !isFound;j++){
-                    if(levels[i].searchPlayerByNickName(nickName)!=-1){
-                        isFound=true;
-                        posLevel=i;
-                        posPlayer=j;
-                        if(levels[posLevel].getPlayers()[posPlayer].getScorePlayer()>levels[posLevel].getScoreRequired()){
-                            String namePlayer=levels[posLevel].getPlayers()[posPlayer].getName();
-                            int scorePlayer=levels[posLevel].getPlayers()[posPlayer].getScorePlayer();
-                            int lifes=levels[posLevel].getPlayers()[posPlayer].getLifes();
-                            levels[posLevel+1].getPlayers()[levels[posLevel+1].hasEmptyPosPlayer()]= new Player(nickName, namePlayer);
-                            levels[posLevel+1].getPlayers()[levels[posLevel+1].searchPlayerByNickName(nickName)].setScorePlayer(scorePlayer);
-                            levels[posLevel+1].getPlayers()[levels[posLevel+1].searchPlayerByNickName(nickName)].setLifes(lifes);
-                            levels[posLevel].deletePerson(nickName);
-                            msj="Jugador incrementado al nivel " + posLevel+2;
-                        }else{
-                            msj="El jugador necesita " + (levels[posLevel].getScoreRequired()-levels[posLevel].getPlayers()[posPlayer].getScorePlayer())+ " puntos para pasar al nivel " + (posLevel+2);
-                        }
-                    }
+    public String increasePlayerLevel(String nickName, int level){
+        msj="No se encontro al jugador";
+        level=level-2;
+        int newPosPlayer=levels[level+1].hasEmptyPosPlayer();
+        if(newPosPlayer!=-1){
+            int posLevel=searchPlayerByNickName(nickName);
+            if(posLevel!=-1){
+                String namePlayer="";
+                int actualPosPlayer=levels[posLevel].searchPlayerByNickName(nickName);
+                if(levels[posLevel].getPlayers()[actualPosPlayer].getScorePlayer()>=levels[level].getScoreRequired()){
+                    namePlayer=levels[posLevel].getPlayers()[actualPosPlayer].getName();
+                    int scorePlayer=levels[posLevel].getPlayers()[actualPosPlayer].getScorePlayer();
+                    levels[level+1].addPersonWithObject(new Player(nickName, namePlayer));
+                    levels[posLevel].deletePerson(nickName);
+                    levels[level+1].getPlayers()[newPosPlayer].setScorePlayer(scorePlayer);
+                    msj="Jugador incrementado al nivel " + (level+2);
+                }else{
+                    msj="El jugador necesita " + (levels[level].getScoreRequired()-levels[posLevel].getPlayers()[actualPosPlayer].getScorePlayer())+ " puntos para pasar al nivel " + (level+2);
                 }
             }
+        }else{
+            msj="No hay espacio para el jugador en el nivel " + (level+2);
         }
         return msj;
     }
@@ -166,16 +153,17 @@ public class VideoGame{
         msj="EL tesoro no fue encontrado";
         int count=0;
         if(searchTreasureByName(nameTreasure)!=-1){
-            for(int i=0;i<SIZE_OF_TREASURES;i++){
-                if(treasures[i]!=null){
-                    if(treasures[i].getNameTreasure().equals(nameTreasure)){
-                        count++;
+            for(int i=0;i<SIZE_OF_LEVELS;i++){
+                for(int j=0;j<SIZE_OF_TREASURES_IN_LEVEL;j++){
+                    if(levels[i].getTreasures()[j]!=null){
+                        if(levels[i].getTreasures()[j].getNameTreasure().equals(nameTreasure)){
+                            count++;
+                        }
                     }
                 }
             }
             msj=nameTreasure + " fue encontrado " + count + " veces";
         }
-        
         return msj;
     }
 
@@ -184,7 +172,7 @@ public class VideoGame{
         int count=0;
         TypeEnemy typeEnemy= TypeEnemy.values()[optionEnemy];
         for(int i=0;i<SIZE_OF_LEVELS;i++){
-            for(int j=0;j <35;j++){
+            for(int j=0;j <SIZE_OF_ENEMIES_IN_LEVEL;j++){
                 if(levels[i].getEnemies()[j]!=null){
                     if(levels[i].getEnemies()[j].getTypeEnemy().equals(typeEnemy)){
                     count++;
@@ -199,10 +187,12 @@ public class VideoGame{
 
     public int countTreasures(String nameTreasure){
         int count=0;
-        for(int i=0;i<SIZE_OF_TREASURES;i++){
-            if(treasures[i]!=null){
-                if(treasures[i].getNameTreasure().equals(nameTreasure)){
-                    count++;
+        for(int i=0;i<SIZE_OF_LEVELS;i++){
+            for(int j=0;j<SIZE_OF_TREASURES_IN_LEVEL;j++){
+                if(levels[i].getTreasures()[j]!=null){
+                    if(levels[i].getTreasures()[j].getNameTreasure().equals(nameTreasure)){
+                        count++;
+                    }
                 }
             }
         }
@@ -210,13 +200,15 @@ public class VideoGame{
     }
 
     public String showMostRepeatedTreasure(){
-        for(int i=0;i<SIZE_OF_TREASURES;i++){
-            int max=0;
-            if(treasures[i]!=null){
-                int counted= countTreasures(treasures[i].getNameTreasure());
-                if(counted>max){
-                    max=counted;
-                    msj="El tesoro más repetido es: " + treasures[i].toString() + " con "+ counted + " unidades"; 
+        for(int i=0;i<SIZE_OF_LEVELS;i++){
+            for(int j=0;j<SIZE_OF_TREASURES_IN_LEVEL;j++){    
+                int max=0;
+                if(levels[i].getTreasures()[j]!=null){
+                    int counted= countTreasures(levels[i].getTreasures()[j].getNameTreasure());
+                    if(counted>max){
+                        max=counted;
+                        msj="El tesoro más repetido es: " + levels[i].getTreasures()[j].toString() + " con "+ counted + " unidades"; 
+                    }
                 }
             }
         }
@@ -227,12 +219,12 @@ public class VideoGame{
         msj="";
         for(int i=0;i<SIZE_OF_LEVELS;i++){
             int max=0;
-            for(int j=0;j<35;j++){
+            for(int j=0;j<SIZE_OF_ENEMIES_IN_LEVEL;j++){
                 if(levels[i].getEnemies()[j]!=null){
                     int score=levels[i].getEnemies()[j].getScoreEnemy();
                     if(score>max){
                         max=score;
-                        msj="El enemigo con mayor puntaje es: " + levels[i].getEnemies()[j].toString() + " y se encuentra en el nivel " + i+1; 
+                        msj="El enemigo con mayor puntaje es: " + levels[i].getEnemies()[j].toString() + " y se encuentra en el nivel " + (i+1); 
                     }
                 }
             }
@@ -240,36 +232,94 @@ public class VideoGame{
         return msj;
     }
 
+    public String showEnemiesConsonants(){
+        String nameEnemy="";
+        int count=0;
+        char[] consonants= {'b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','y','z'};
+        for(int i=0;i<SIZE_OF_LEVELS;i++){
+            for(int j=0;j<SIZE_OF_ENEMIES_IN_LEVEL;j++){
+                if(levels[i].getEnemies()[j]!=null){
+                    nameEnemy=levels[i].getEnemies()[j].getNameEnemy();
+                    nameEnemy=nameEnemy.toLowerCase();
+                    char[] letters= nameEnemy.toCharArray();
+                    for(int c=0;c<letters.length;c++){
+                        for(int d=0;d<consonants.length;d++){
+                            if(letters[c]==consonants[d]){
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+            msj="Consonantes encontradas: "+ count;
+        }
+        return msj;
+    }
+
+    public String showTop5Players(){
+        msj="";
+        Player[] top5Player;
+        top5Player= new Player[5];
+        top5Player[0]= new Player("1","");
+        top5Player[1]= new Player("2","");
+        top5Player[2]= new Player("3","");
+        top5Player[3]= new Player("4","");
+        top5Player[4]= new Player("5","");
+        for(int k=0;k<5;k++){
+            for(int i=0;i<SIZE_OF_LEVELS;i++){
+                for(int j=0;j<SIZE_OF_PLAYERS_IN_LEVEL;j++){
+                    if(levels[i].getPlayers()[j]!=null){
+                        if(k>=1){
+                            if(levels[i].getPlayers()[j].getScorePlayer()>top5Player[k].getScorePlayer() && top5Player[k-1].getScorePlayer()>levels[i].getPlayers()[j].getScorePlayer()){
+                                top5Player[k]=levels[i].getPlayers()[j];
+                            }
+                        }else{
+                            if(levels[i].getPlayers()[j].getScorePlayer()>top5Player[k].getScorePlayer()){
+                                top5Player[k]=levels[i].getPlayers()[j];
+                            }
+                        }
+                    }  
+                }  
+            }
+            msj+=top5Player[k].toString();
+        }
+        return msj;
+    }
 
     public int searchPlayerByNickName(String playerNickName){
 		int pos = -1; 
 		boolean isFound = false; 
 		for(int i = 0; i < SIZE_OF_LEVELS && !isFound; i++){
-			for(int j=0; j< 30;j++){
-                if(levels[i].getPlayers()[j]!=null){
-                    if(levels[i].getPlayers()[j].getNickName().equals(playerNickName)){
-                        pos = i; 
-                        isFound = true; 
-                    }
-                }
+            if(levels[i].searchPlayerByNickName(playerNickName)!=-1){
+                pos=i;
+                isFound=true;
             }
 		}
-
 		return pos; 
 	}
 
     public int searchTreasureByName(String nameTreasure){
 		int pos = -1; 
 		boolean isFound = false; 
-		for(int i = 0; i < SIZE_OF_TREASURES && !isFound; i++){
-			if(treasures[i]!=null){
-				if(treasures[i].getNameTreasure().equals(nameTreasure)){
-					pos = i; 
-					isFound = true; 
-				}
-			}
+		for(int i = 0; i < SIZE_OF_LEVELS && !isFound; i++){
+			for(int j=0; j< SIZE_OF_TREASURES_IN_LEVEL;j++){
+                if(levels[i].getTreasures()[j]!=null){
+                    if(levels[i].getTreasures()[j].getNameTreasure().equals(nameTreasure)){
+                        pos = i; 
+                        isFound = true; 
+                    }
+                }
+            }
 		}
-
 		return pos; 
 	}
+
+    public String showTypeEnemyList(){
+        TypeEnemy typeEnemies[]= TypeEnemy.values();
+        msj= "Tipo de enemigos: ";
+        for(int i=0;i< typeEnemies.length;i++){
+            msj += "\n" + (i+1) + " " + typeEnemies[i];
+        }
+        return msj;
+    }
 }

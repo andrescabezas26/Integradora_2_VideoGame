@@ -17,15 +17,14 @@ public class Level {
     private int scoreEnemies;
 
     public Level(int idNumberLevel, int scoreRequired){
-        this.idNumberLevel=idNumberLevel;
-        this.scoreRequired=scoreRequired;
-        this.difficult=Difficult.BAJO;
-        this.scoreTreasures=0;
-        this.scoreEnemies=0;
         treasures= new Treasure[SIZE_OF_TREASURES];
         enemies= new Enemy[SIZE_OF_ENEMIES];
         players=new Player[SIZE_OF_PLAYERS];
-        
+        this.idNumberLevel=idNumberLevel;
+        this.scoreRequired=scoreRequired;
+        this.difficult=calculateDifficult();
+        this.scoreTreasures=0;
+        this.scoreEnemies=0;
     }
 
     public int getIdNumberLevel() {
@@ -86,8 +85,8 @@ public class Level {
         int treasuresAdded=0;
         for(int i=0;i<SIZE_OF_TREASURES && treasuresAdded<quantityOfTreasure;i++){
             if(treasures[i]==null){
-                treasuresAdded++;
                 treasures[i]=treasure;
+                treasuresAdded++;
             }
         }
     }
@@ -136,7 +135,6 @@ public class Level {
 				}
 			}
 		}
-
 		return pos; 
 	}
 
@@ -151,7 +149,6 @@ public class Level {
 				}
 			}
 		}
-
 		return pos; 
 	}
 
@@ -228,10 +225,10 @@ public class Level {
 
         for(int i=0;i<SIZE_OF_ENEMIES;i++){
             if(enemies[i]!=null){
-                if(i< SIZE_OF_ENEMIES -1){
+                if(i< (SIZE_OF_ENEMIES-1)){
                     msj += enemies[i].toString() + " , ";
                 }else{
-                    msj += enemies[i].toString() + " ";
+                    msj += enemies[i].toString();
                 }
             }
         }
@@ -239,22 +236,23 @@ public class Level {
     }
 
     public Difficult calculateDifficult(){
-        
+        int scoreT=0;
+        int scoreE=0;
         for(int i=0;i<SIZE_OF_TREASURES;i++){
             if(treasures[i]!=null){
-                scoreTreasures+=treasures[i].getScoreTreasure();
+                scoreT+=treasures[i].getScoreTreasure();
             }else{
-                scoreTreasures=0;
+                scoreT+=0;
             }
-            setScoreTreasures(scoreTreasures);
+            setScoreTreasures(scoreT);
         }
         for(int i=0;i<SIZE_OF_ENEMIES;i++){
-            if(treasures[i]!=null){
-                scoreEnemies+=enemies[i].getScoreEnemy();
+            if(enemies[i]!=null){
+                scoreE+=enemies[i].getScoreEnemy();
             }else{
-                scoreEnemies=0;
+                scoreE+=0;
             }
-            setScoreEnemies(scoreEnemies);
+            setScoreEnemies(scoreE);
         }
         
         if(this.scoreTreasures>this.scoreEnemies){
@@ -266,5 +264,15 @@ public class Level {
         }
 
         return difficult;
+    }
+
+    public String listPlayers(){
+        String msj=""+scoreRequired;
+        for(int i=0;i<SIZE_OF_PLAYERS;i++){
+            if(players[i]!=null){
+                msj += players[i].toString() + " , " ;
+            }
+        }
+        return msj;
     }
 }

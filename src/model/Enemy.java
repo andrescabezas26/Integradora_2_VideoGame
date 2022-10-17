@@ -13,7 +13,7 @@ public class Enemy {
     public Enemy(String nameEnemy, int damageEnemy, int scoreEnemy, int optionEnemy){
         this.nameEnemy= nameEnemy;
         this.damageEnemy= damageEnemy;
-        this.scoreEnemy=damageEnemy;
+        this.scoreEnemy=scoreEnemy;
         positionXEnemy=generateRandomPosisitonX();
         positionYEnemy=generateRandomPosisitonY();
         this.typeEnemy= TypeEnemy.values()[optionEnemy];

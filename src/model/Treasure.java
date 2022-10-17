@@ -39,7 +39,9 @@ public class Treasure{
     public void setPositionYTreasure(int positionYTreasure) {
         this.positionYTreasure = positionYTreasure;
     }
-
+    /**generateRandomPosition=
+     * @return positionx: int = The posisition  
+     */
     public int generateRandomPosisitonX(){
         int positionX=(int)(Math.random()*1280+1);
         return positionX;

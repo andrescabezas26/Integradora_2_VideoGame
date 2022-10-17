@@ -49,8 +49,8 @@ public class Player{
 
     public String toString(){
         return 
-            "Información del enemigo: \n"+
-            "Apodo : " + this.nickName + "\n" +
+            "Informacion del jugador: \n"+
+            "NickName : " + this.nickName + "\n" +
             "Puntaje : " + this.scorePlayer + "\n";
     }
 
